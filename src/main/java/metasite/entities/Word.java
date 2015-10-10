@@ -37,7 +37,7 @@ public class Word implements Serializable {
 		this.id = id;
 	}
 
-	@Column
+	@Column(unique = true)
 	public String getValue() {
 		return value;
 	}

@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
 	private WordDao wordDao;
 
 	@Override
-	public void fileUpload(MultipartFile file) throws IOException {
+	public void fileUpload(MultipartFile file) {
 		String fileString = null;
 		try {
 			fileString = IOUtils.toString(file.getInputStream(), "UTF-8");
@@ -33,7 +33,11 @@ public class FileServiceImpl implements FileService {
 		}
 		String[] wordList = fileString.split("\\s+");
 		for (String wordValue : wordList) {
-			Word word = new Word(wordValue, 0);
+			Word word = wordDao.findByValue(wordValue);
+			if (word != null)
+				word.setCount(word.getCount() + 1);
+			else
+				word = new Word(wordValue, 1);
 			wordDao.save(word);
 		}
 	}
