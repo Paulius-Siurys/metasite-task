@@ -26,6 +26,10 @@ public class FileController {
     @RequestMapping(value = RestUrl.fileUpload, method = RequestMethod.POST)
     @ResponseBody
     public void fileUpload(@RequestParam("file") MultipartFile file) {
-	   //fileService.fileUpload(file);
+	    try {
+		    fileService.fileUpload(file);
+	    } catch (IOException e) {
+		    e.printStackTrace();
+	    }
     }
 }
