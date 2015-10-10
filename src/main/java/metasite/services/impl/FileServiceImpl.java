@@ -11,5 +11,5 @@ import metasite.services.FileService;
 @Service("fileService")
 @Transactional(readOnly = false)
 public class FileServiceImpl implements FileService {
-	Logger logger = Logger.getLogger(FileServiceImpl.class);
+    Logger logger = Logger.getLogger(FileServiceImpl.class);
 }
