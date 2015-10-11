@@ -45,7 +45,7 @@ public class FileWritingThread extends Thread {
 
 	private void writeToFile(char[] firstLetterArray, String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
-		writer.println("Žodis|Kartojimosi dažnis");
+		writer.println("Žodis|Kartojimosi skaičius");
 		writer.println();
 		List<Word> wordList = wordDao.findByFirstLetter(firstLetterArray, null, null).getContent();
 		for (Word word : wordList) {
