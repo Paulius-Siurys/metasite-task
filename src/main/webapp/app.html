@@ -3,10 +3,12 @@
 <head>
 	<script src="js/lib/angular.js"></script>
 	<script src="js/lib/angular-route.js"></script>
+	<script src="js/lib/ng-table.js"></script>
 	<script src="js/app/app.js"></script>
 	<script src="js/app/controllers.js"></script>
 	<script src="js/app/services.js"></script>
 	<script src="js/app/directives.js"></script>
+	<link rel="stylesheet" href="css/lib/ng-table.css">
 </head>
 <body>
 	<div data-ng-controller="AppController">
@@ -15,6 +17,12 @@
 			<input type="file" data-file-model="file"/>
 			<button data-ng-click="uploadFile()">Įkelti failą</button>
 		</form>
+		<table data-ng-table="tableParams" class="table">
+			<tr data-ng-repeat="word in $data">
+				<td>{{word.value}}</td>
+				<td>{{word.count}}</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

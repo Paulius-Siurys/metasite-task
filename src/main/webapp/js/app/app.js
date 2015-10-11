@@ -1,5 +1,5 @@
 (function () {
 
-	var am = angular.module('metasite', []);
+	var am = angular.module('metasite', ['ngTable']);
 
 })();

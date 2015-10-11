@@ -3,17 +3,19 @@
 	var am = angular.module('metasite');
 
 	am.service('fileUploadService', ['$http', function ($http) {
-        this.uploadFileToUrl = function(file) {
+    }]);
+
+	am.service('wordService', ['$http', function ($http) {
+	    this.uploadFile = function(file) {
             var fd = new FormData();
             fd.append('file', file);
-            $http.post('action/file/upload', fd, {
+            return $http.post('action/file/upload', fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
-            })
-            .success(function(){
-            })
-            .error(function(){
             });
+        };
+        this.list = function(firstLetterIntervalEnum) {
+            return $http.get('action/word/list/' + firstLetterIntervalEnum, {});
         };
     }]);
 })();

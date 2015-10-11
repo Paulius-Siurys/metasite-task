@@ -1,6 +1,7 @@
 package metasite.services;
 
 import metasite.utils.details.WordDetails;
+import metasite.utils.details.WordDetailsList;
 import metasite.utils.enums.FirstLetterIntervalEnum;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,5 +13,5 @@ import java.util.List;
  */
 public interface FileService {
 	void fileUpload(MultipartFile file);
-	List<WordDetails> list(FirstLetterIntervalEnum firstLetterIntervalEnum);
+	WordDetailsList list(FirstLetterIntervalEnum firstLetterIntervalEnum);
 }

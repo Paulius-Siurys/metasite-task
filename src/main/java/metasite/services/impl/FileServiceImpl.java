@@ -4,6 +4,7 @@ import metasite.dao.WordDao;
 import metasite.entities.Word;
 import metasite.utils.WordUtils;
 import metasite.utils.details.WordDetails;
+import metasite.utils.details.WordDetailsList;
 import metasite.utils.enums.FirstLetterIntervalEnum;
 import metasite.threads.FileWritingThread;
 import metasite.utils.FirstLetterInterval;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by paulius on 10/5/2015.
  */
 @Service("fileService")
-@Transactional(readOnly = false)
+@Transactional
 public class FileServiceImpl implements FileService {
 
 	@Autowired
@@ -32,6 +33,7 @@ public class FileServiceImpl implements FileService {
 	private FileWritingThread fileWritingThread;
 
 	@Override
+	@Transactional(readOnly = false)
 	public void fileUpload(MultipartFile file) {
 		String fileString = null;
 		try {
@@ -53,7 +55,8 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public List<WordDetails> list(FirstLetterIntervalEnum firstLetterIntervalEnum) {
+	@Transactional(readOnly = true)
+	public WordDetailsList list(FirstLetterIntervalEnum firstLetterIntervalEnum) {
 		List<Word> wordList = new ArrayList<>();
 		switch (firstLetterIntervalEnum) {
 			case AG:
@@ -68,8 +71,6 @@ public class FileServiceImpl implements FileService {
 			case VZ:
 				wordList = wordDao.findByFirstLetter(FirstLetterInterval.vZInterval, null, null);
 				break;
-			default:
-
 		}
 
 		List<WordDetails> wordDetailsList = new ArrayList<>();
@@ -77,6 +78,6 @@ public class FileServiceImpl implements FileService {
 			wordDetailsList.add(WordUtils.getWordDetails(word));
 		}
 
-		return wordDetailsList;
+		return new WordDetailsList(wordDetailsList);
 	}
 }

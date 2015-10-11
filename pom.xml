@@ -19,6 +19,7 @@
 	    <commons.dbcp.version>1.4</commons.dbcp.version>
 	    <spring.data.jpa.version>1.9.0.RELEASE</spring.data.jpa.version>
 	    <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
+	    <fasterxml.jackson.version>2.6.2</fasterxml.jackson.version>
     </properties>
 
     <build>
@@ -128,6 +129,17 @@
 		    <artifactId>postgresql</artifactId>
 		    <version>${postgresql.version}</version>
 		    <scope>compile</scope>
+	    </dependency>
+
+	    <dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>${fasterxml.jackson.version}</version>
+	    </dependency>
+	    <dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${fasterxml.jackson.version}</version>
 	    </dependency>
 
     </dependencies>

@@ -1,6 +1,7 @@
 package metasite.controllers;
 
 import metasite.utils.details.WordDetails;
+import metasite.utils.details.WordDetailsList;
 import metasite.utils.enums.FirstLetterIntervalEnum;
 import metasite.services.FileService;
 import metasite.utils.RestUrl;
@@ -32,7 +33,7 @@ public class FileController {
 
 	@RequestMapping(value = RestUrl.wordList, method = RequestMethod.GET)
 	@ResponseBody
-	public List<WordDetails> list(@PathVariable("firstLetterIntervalEnum") FirstLetterIntervalEnum firstLetterIntervalEnum) {
+	public WordDetailsList list(@PathVariable("firstLetterIntervalEnum") FirstLetterIntervalEnum firstLetterIntervalEnum) {
 		return fileService.list(firstLetterIntervalEnum);
 	}
 }
