@@ -1,18 +1,19 @@
 package metasite.dao.impl;
 
-import metasite.dao.WordDao;
 import metasite.dao.WordDaoCustom;
 import metasite.entities.Word;
-import metasite.entities.*;
+import metasite.entities.Word_;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,35 +27,24 @@ public class WordDaoImpl implements WordDaoCustom {
 	private Expression<?> Word;
 
 	@Override
-	public List<Word> findByFirstLetter() {
+	public List<Word> findByFirstLetter(char[] firstLetterArray, Integer firstResult, Integer maxResults) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Word.class);
 		Root<Word> root = criteriaQuery.from(Word.class);
 
-//		List<Predicate> predicateList = new ArrayList<>();
-//		List<Order> orderList = new ArrayList<>();
-//
-//		predicateList.add(criteriaBuilder.equal(root.get(DocumentVersion_.last), true));
-//		predicateList.add(tagListJoin.get(Tag_.id).in(tagIdList));
-//
-//		if (orderByField) {
-//			Join fieldListJoin = root.join(DocumentVersion_.fieldList, JoinType.LEFT);
-//			Join structureFieldJoin = fieldListJoin.join(AbstractDocumentField_.structureField, JoinType.LEFT);
-//
-//			Order order = isInt ?
-//					new OrderImpl(fieldListJoin.get(AbstractDocumentField_.value).as(Integer.class))
-//					: new OrderImpl(fieldListJoin.get(AbstractDocumentField_.value));
-//			orderList.add(order);
-//
-//			predicateList.add(criteriaBuilder.like(structureFieldJoin.get(StructureField_.name), orderField));
-//		}
-//
-//		if (published) {
-//			predicateList.add(criteriaBuilder.equal(documentJoin.get(Document_.status), ObjectStatusEnum.PUBLISHED));
-//		}
-//		criteriaQuery.where(predicateList.toArray(new Predicate[]{}));
-//
-//		return CriteriaQueryUtils.getResultPage(criteriaQuery, criteriaBuilder, entityManager, root, pageable);
-		return null;
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		for (char firstLetter : firstLetterArray) {
+			predicateList.add(criteriaBuilder.like(root.get(Word_.value), firstLetter + "%"));
+		}
+
+		criteriaQuery.where(predicateList.toArray(new Predicate[]{}));
+		criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Word_.value)));
+
+		TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
+		if (firstResult != null && maxResults != null) {
+			typedQuery.setFirstResult(firstResult);
+			typedQuery.setMaxResults(maxResults);
+		}
+		return typedQuery.getResultList();
 	}
 }
