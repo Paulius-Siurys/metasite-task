@@ -1,6 +1,7 @@
 <!doctype html>
 <html data-ng-app="metasite" xmlns="http://www.w3.org/1999/html">
 <head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<script src="js/lib/angular.js"></script>
 	<script src="js/lib/angular-route.js"></script>
 	<script src="js/lib/ng-table.js"></script>
@@ -18,16 +19,19 @@
 			<button data-ng-click="uploadFile()">Įkelti failą</button>
 		</form>
 		<form id="selectForm">
+			<label>Žodžių pasirinkmas pagal pirmą raidę</label>
 			<select data-ng-model="firstLetterInterval"
-			        data-ng-options="firstLetterInterval for firstLetterInterval in firstLetterIntervalList"
+			        data-ng-options="firstLetterInterval.value as firstLetterInterval.name for firstLetterInterval in firstLetterIntervalList"
 			        data-ng-change="firstLetterIntervalChange()">
 			</select>
 		</form>
 		<table data-ng-table="tableParams" class="table">
-			<tr data-ng-repeat="word in $data">
-				<td>{{word.value}}</td>
-				<td>{{word.count}}</td>
-			</tr>
+			<tbody>
+				<tr data-ng-repeat="word in $data">
+					<td data-title="'Žodis'">{{word.value}}</td>
+					<td data-title="'Kartojimosi dažnis'">{{word.count}}</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </body>

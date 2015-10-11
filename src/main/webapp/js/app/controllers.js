@@ -5,8 +5,9 @@
 	am.controller('AppController', ['$scope', 'wordService', 'NgTableParams', '$q',
 	        function ($scope, wordService, NgTableParams, $q) {
 
-	    $scope.firstLetterIntervalList = ['AG', 'HN', 'OU', 'VZ'];
-	    $scope.firstLetterInterval = 'AG';
+	    $scope.firstLetterIntervalList = [{name: 'A-G', value: 'AG'}, {name: 'H-N', value: 'HN'},
+	        {name: 'O-U', value: 'OU'}, {name: 'V-Z', value: 'VZ'}];
+	    $scope.firstLetterInterval = $scope.firstLetterIntervalList[0].value;
 
 		var loadWordTable = function($defer, params) {
             wordService.list($scope.firstLetterInterval, params.page(), params.count()).success(function(data){

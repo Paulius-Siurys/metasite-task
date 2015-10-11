@@ -4,6 +4,7 @@ import metasite.configuration.Configuration;
 import metasite.dao.WordDao;
 import metasite.entities.Word;
 import metasite.utils.FirstLetterInterval;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
