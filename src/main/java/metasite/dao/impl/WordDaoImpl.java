@@ -37,7 +37,7 @@ public class WordDaoImpl implements WordDaoCustom {
 			predicateList.add(criteriaBuilder.like(root.get(Word_.value), firstLetter + "%"));
 		}
 
-		criteriaQuery.where(predicateList.toArray(new Predicate[]{}));
+		criteriaQuery.where(criteriaBuilder.or(predicateList.toArray(new Predicate[]{})));
 		criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Word_.value)));
 
 		TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);

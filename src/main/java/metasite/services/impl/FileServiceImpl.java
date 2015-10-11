@@ -2,8 +2,8 @@ package metasite.services.impl;
 
 import metasite.dao.WordDao;
 import metasite.entities.Word;
+import metasite.threads.FileWritingThread;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +18,12 @@ import java.io.IOException;
 @Service("fileService")
 @Transactional(readOnly = false)
 public class FileServiceImpl implements FileService {
-    Logger logger = Logger.getLogger(FileServiceImpl.class);
 
 	@Autowired
 	private WordDao wordDao;
+
+	@Autowired
+	private FileWritingThread fileWritingThread;
 
 	@Override
 	public void fileUpload(MultipartFile file) {
@@ -40,5 +42,7 @@ public class FileServiceImpl implements FileService {
 				word = new Word(wordValue, 1);
 			wordDao.save(word);
 		}
+
+		fileWritingThread.run();
 	}
 }
