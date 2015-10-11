@@ -3,7 +3,7 @@ Norint pasileisti programą reikia susikurti PostgreSQL 9.2 duombazę:
 
 CREATE DATABASE "METASITE";
 
-src/main/resources/application.properties faile nurodytas duombazės adresas ("db.url"), naudotojo vardas("db.username") ir slaptažodis("db.password"), kurios galima pasikeisti į tinkamus
+src/main/resources/application.properties faile nurodytas duombazės adresas ("db.url"), naudotojo vardas ("db.username") ir slaptažodis ("db.password"), kurios galima pasikeisti į tinkamus
 
 Programos paleidimas: mvn tomcat7:run
 
