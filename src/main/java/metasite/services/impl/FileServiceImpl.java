@@ -2,6 +2,7 @@ package metasite.services.impl;
 
 import metasite.dao.WordDao;
 import metasite.entities.Word;
+import metasite.utils.PagingUtils;
 import metasite.utils.WordUtils;
 import metasite.utils.details.WordDetails;
 import metasite.utils.details.WordDetailsList;
@@ -10,6 +11,7 @@ import metasite.threads.FileWritingThread;
 import metasite.utils.FirstLetterInterval;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import metasite.services.FileService;
@@ -56,20 +58,21 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public WordDetailsList list(FirstLetterIntervalEnum firstLetterIntervalEnum) {
-		List<Word> wordList = new ArrayList<>();
+	public WordDetailsList list(FirstLetterIntervalEnum firstLetterIntervalEnum, int page, int pageSize) {
+		Page<Word> wordList = null;
+		int firstResult = PagingUtils.getFirstResult(page, pageSize);
 		switch (firstLetterIntervalEnum) {
 			case AG:
-				wordList = wordDao.findByFirstLetter(FirstLetterInterval.aGInterval, null, null);
+				wordList = wordDao.findByFirstLetter(FirstLetterInterval.aGInterval, firstResult, pageSize);
 				break;
 			case HN:
-				wordList = wordDao.findByFirstLetter(FirstLetterInterval.hNInterval, null, null);
+				wordList = wordDao.findByFirstLetter(FirstLetterInterval.hNInterval, firstResult, pageSize);
 				break;
 			case OU:
-				wordList = wordDao.findByFirstLetter(FirstLetterInterval.oUInterval, null, null);
+				wordList = wordDao.findByFirstLetter(FirstLetterInterval.oUInterval, firstResult, pageSize);
 				break;
 			case VZ:
-				wordList = wordDao.findByFirstLetter(FirstLetterInterval.vZInterval, null, null);
+				wordList = wordDao.findByFirstLetter(FirstLetterInterval.vZInterval, firstResult, pageSize);
 				break;
 		}
 
@@ -78,6 +81,6 @@ public class FileServiceImpl implements FileService {
 			wordDetailsList.add(WordUtils.getWordDetails(word));
 		}
 
-		return new WordDetailsList(wordDetailsList);
+		return new WordDetailsList(wordDetailsList, wordList.getTotalElements());
 	}
 }

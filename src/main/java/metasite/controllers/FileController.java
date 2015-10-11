@@ -33,7 +33,7 @@ public class FileController {
 
 	@RequestMapping(value = RestUrl.wordList, method = RequestMethod.GET)
 	@ResponseBody
-	public WordDetailsList list(@PathVariable("firstLetterIntervalEnum") FirstLetterIntervalEnum firstLetterIntervalEnum) {
-		return fileService.list(firstLetterIntervalEnum);
+	public WordDetailsList list(@PathVariable("firstLetterIntervalEnum") FirstLetterIntervalEnum firstLetterIntervalEnum, @PathVariable("page") int page, @PathVariable("pageSize") int pageSize) {
+		return fileService.list(firstLetterIntervalEnum, page, pageSize);
 	}
 }

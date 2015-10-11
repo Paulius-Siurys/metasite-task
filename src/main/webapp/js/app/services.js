@@ -14,8 +14,8 @@
                 headers: {'Content-Type': undefined}
             });
         };
-        this.list = function(firstLetterIntervalEnum) {
-            return $http.get('action/word/list/' + firstLetterIntervalEnum, {});
+        this.list = function(firstLetterIntervalEnum, page, pageSize) {
+            return $http.get('action/word/list/' + firstLetterIntervalEnum + "/" + page + "/" + pageSize, {});
         };
     }]);
 })();

@@ -12,10 +12,16 @@
 </head>
 <body>
 	<div data-ng-controller="AppController">
-		<form>
+		<form id="inputForm">
 			<label>Failo įkėlimas</label>
 			<input type="file" data-file-model="file"/>
 			<button data-ng-click="uploadFile()">Įkelti failą</button>
+		</form>
+		<form id="selectForm">
+			<select data-ng-model="firstLetterInterval"
+			        data-ng-options="firstLetterInterval for firstLetterInterval in firstLetterIntervalList"
+			        data-ng-change="firstLetterIntervalChange()">
+			</select>
 		</form>
 		<table data-ng-table="tableParams" class="table">
 			<tr data-ng-repeat="word in $data">

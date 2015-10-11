@@ -3,6 +3,9 @@ package metasite.dao.impl;
 import metasite.dao.WordDaoCustom;
 import metasite.entities.Word;
 import metasite.entities.Word_;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,7 +30,7 @@ public class WordDaoImpl implements WordDaoCustom {
 	private Expression<?> Word;
 
 	@Override
-	public List<Word> findByFirstLetter(char[] firstLetterArray, Integer firstResult, Integer maxResults) {
+	public Page<Word> findByFirstLetter(char[] firstLetterArray, Integer firstResult, Integer maxResults) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Word.class);
 		Root<Word> root = criteriaQuery.from(Word.class);
@@ -38,6 +41,9 @@ public class WordDaoImpl implements WordDaoCustom {
 		}
 
 		criteriaQuery.where(criteriaBuilder.or(predicateList.toArray(new Predicate[]{})));
+
+		long totalElements = getTotalElements(criteriaQuery, criteriaBuilder, root);
+		criteriaQuery.select(root);
 		criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Word_.value)));
 
 		TypedQuery typedQuery = entityManager.createQuery(criteriaQuery);
@@ -45,6 +51,11 @@ public class WordDaoImpl implements WordDaoCustom {
 			typedQuery.setFirstResult(firstResult);
 			typedQuery.setMaxResults(maxResults);
 		}
-		return typedQuery.getResultList();
+		return new PageImpl<Word>(typedQuery.getResultList(), null, totalElements);
+	}
+
+	public Long getTotalElements(CriteriaQuery criteriaQuery, CriteriaBuilder builder, Root root) {
+		criteriaQuery.select(builder.count(root));
+		return (Long) entityManager.createQuery(criteriaQuery).getSingleResult();
 	}
 }

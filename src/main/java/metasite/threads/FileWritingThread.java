@@ -46,7 +46,7 @@ public class FileWritingThread extends Thread {
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 		writer.println("word|count");
 		writer.println();
-		List<Word> wordList = wordDao.findByFirstLetter(firstLetterArray, null, null);
+		List<Word> wordList = wordDao.findByFirstLetter(firstLetterArray, null, null).getContent();
 		for (Word word : wordList) {
 			writer.println(word.getValue() + "|" + word.getCount());
 		}

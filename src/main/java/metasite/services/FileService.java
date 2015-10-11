@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface FileService {
 	void fileUpload(MultipartFile file);
-	WordDetailsList list(FirstLetterIntervalEnum firstLetterIntervalEnum);
+	WordDetailsList list(FirstLetterIntervalEnum firstLetterIntervalEnum, int page, int pageSize);
 }
